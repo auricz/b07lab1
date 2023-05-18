@@ -11,18 +11,35 @@ public class Polynomial {
 	}
 	
 	public Polynomial add(Polynomial poly) {
-		int longer = Math.max(coeff.length, poly.coeff.length);
-		double[] new_poly = new double[longer];
-		for(int i = 0; i < longer; i++) {
-			double p1_coeff = 0;
-			double p2_coeff = 0;
-			if(i < coeff.length) {
-				p1_coeff = coeff[i];
+		int cur_poly_len = coeff.length;
+		int other_poly_len = poly.coeff.length;
+		double[] p1_coeff = coeff;
+		double[] p2_coeff = poly.coeff;
+		if(cur_poly_len < other_poly_len) {
+			double[] new_coeff = new double[other_poly_len];
+			for(int i = 0; i < other_poly_len; i++) {
+				double cur_coeff = 0;
+				if(i < cur_poly_len) {
+					cur_coeff = coeff[i];
+				}
+				new_coeff[i] = cur_coeff;
 			}
-			if(i < poly.coeff.length) {
-				p2_coeff = poly.coeff[i];
+			p1_coeff = new_coeff;
+		}
+		if(other_poly_len < cur_poly_len) {
+			double[] new_coeff = new double[cur_poly_len];
+			for(int i = 0; i < cur_poly_len; i++) {
+				double cur_coeff = 0;
+				if(i < other_poly_len) {
+					cur_coeff = poly.coeff[i];
+				}
+				new_coeff[i] = cur_coeff;
 			}
-			new_poly[i] = p1_coeff + p2_coeff;
+			p2_coeff = new_coeff;
+		}
+		double[] new_poly = new double[Math.max(cur_poly_len, other_poly_len)];
+		for(int i = 0; i < Math.max(cur_poly_len, other_poly_len); i++) {
+			new_poly[i] = p1_coeff[i] + p2_coeff[i];
 		}
 		return new Polynomial(new_poly);
 	}
